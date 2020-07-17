@@ -1,16 +1,23 @@
 package com.nao749.myapplication.Practice
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nao749.myapplication.DB.DataDB
+import com.nao749.myapplication.Helper.MySwipeHelper
+import com.nao749.myapplication.Helper.Mybutton
+import com.nao749.myapplication.Helper.MybuttonClickListener
 import com.nao749.myapplication.R
+import com.nao749.myapplication.makeToast
 
 import io.realm.Realm
+import kotlinx.android.synthetic.main.fragment_practice_list.*
 
 
 class PracticeFragment : Fragment() {
@@ -19,6 +26,7 @@ class PracticeFragment : Fragment() {
 
     private var listener: OnListFragmentInteractionListener? = null
 
+    private var mListener : OnListPracticeFragmentInteractionListener? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +44,7 @@ class PracticeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_practice_list, container, false)
 
+
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
@@ -48,12 +57,34 @@ class PracticeFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
 
+                setHasFixedSize(true)
+
+
                 val realm = Realm.getDefaultInstance()
                 val result = realm.where(DataDB::class.java)
-                    .equalTo(DataDB::fragmentFrag.name,"練習")
+                    .equalTo(DataDB::fragmentFrag.name, "練習")
                     .findAll()
 
                 adapter = MyPracticeRecyclerViewAdapter(result, listener)
+
+                val swipe = object : MySwipeHelper(context,this,200){
+                    override fun instantiateMyButton(
+                        viewHolder: RecyclerView.ViewHolder,
+                        buffer: MutableList<Mybutton>
+                    ) {
+                        buffer.add(Mybutton(context,"Delete",30,0,Color.parseColor("#FF3C30"),
+                            object : OnListPracticeFragmentInteractionListener {
+                                override fun onClick(pos: Int) {
+                                    //削除処理
+                                    makeToast(context,"け")
+                                }
+
+                            }))
+
+                    }
+
+                }
+
             }
         }
         return view
@@ -83,6 +114,10 @@ class PracticeFragment : Fragment() {
 
     }
 
+    interface OnListPracticeFragmentInteractionListener{
+        fun onClick(pos:Int)
+    }
+
     companion object {
 
         const val ARG_COLUMN_COUNT = "column-count"
@@ -96,4 +131,5 @@ class PracticeFragment : Fragment() {
                 }
             }
     }
+
 }

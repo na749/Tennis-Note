@@ -22,18 +22,49 @@
 
     <include layout="@layout/content_main" />
 
+    <TextView
+        android:id="@+id/textGameMeke"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="65dp"
+        android:layout_marginBottom="158dp"
+        android:background="@color/background"
+        android:elevation="6dp"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="試合ノート作成"
+        android:textColor="@color/TextColor"
+        android:textSize="18sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/textPracticeNoteMake"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="65dp"
+        android:layout_marginBottom="96dp"
+        android:background="@color/background"
+        android:elevation="6dp"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="練習ノート作成"
+        android:textColor="@color/TextColor"
+        android:textSize="18sp"
+        android:visibility="invisible" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/game_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="130dp"
-        android:src="@drawable/ic_flag_black_24dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="145dp"
+        android:src="@drawable/tennisracketwhite"
         android:visibility="invisible"
         app:elevation="6dp"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:pressedTranslationZ="12dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -41,13 +72,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="80dp"
-        android:src="@drawable/ic_directions_run_black_24dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="82dp"
+        android:src="@drawable/tennisballwhite"
         android:visibility="invisible"
         app:elevation="6dp"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:pressedTranslationZ="12dp" />
 
 

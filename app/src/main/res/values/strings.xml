@@ -2,7 +2,7 @@
     <string name="app_name">テニスノート</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Tennis Note</string>
+    <string name="nav_header_title">テニスノート</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -16,8 +16,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="drawer_menu_practice">練習</string>
-    <string name="drawer_menu_game">試合</string>
+    <string name="drawer_menu_practice">練習ノート</string>
+    <string name="drawer_menu_game">試合ノート</string>
 
     <string name="menu_edit">編集</string>
     <string name="menu_delete">削除</string>

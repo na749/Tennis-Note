@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.nao749.myapplication.*
 import com.nao749.myapplication.DB.DataDB
 import com.nao749.myapplication.Game.GameFragment
+import com.nao749.myapplication.Helper.MySwipeHelper
 import com.nao749.myapplication.IntentKey
 import com.nao749.myapplication.ModeInEdit
 import com.nao749.myapplication.Practice.PracticeFragment
@@ -61,6 +62,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 practice_button.startAnimation(fabClose)
                 game_button.startAnimation(fabClose)
                 fab.startAnimation(fabRClockWise)
+                textPracticeNoteMake.startAnimation(fabClose)
+                textGameMeke.startAnimation(fabClose)
 
                 isOpen = false
             }else{
@@ -68,6 +71,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 practice_button.startAnimation(fabOpen)
                 game_button.startAnimation(fabOpen)
                 fab.startAnimation(fabRAntiClockWise)
+                textPracticeNoteMake.startAnimation(fabOpen)
+                textGameMeke.startAnimation(fabOpen)
 
                 practice_button.isClickable
                 game_button.isClickable

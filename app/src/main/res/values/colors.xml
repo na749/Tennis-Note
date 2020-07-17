@@ -6,4 +6,5 @@
   <color name="primaryTextColor">#ffffff</color>
   <color name="LauncherScreen">#98fb98</color>
   <color name="TextColor">#424242</color>
+  <color name="background">#f5f5f5</color>
 </resources>
