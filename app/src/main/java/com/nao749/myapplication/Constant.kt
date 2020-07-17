@@ -1,0 +1,17 @@
+package com.nao749.myapplication
+
+enum class IntentKey{
+    DATE,SCORE,TODAY,REFLECTION,NEXT_POINT,MODE,GAMEDATE,GAMEPLACE,GAMETODAY,GAMEREFLECTION,GAMENEXTPOINT,MODEFRAGMENT
+}
+
+enum class ModeInEdit{
+    NEW,EDIT
+}
+
+enum class Tag{
+    DATE_PICKER_PRACTICE,DATE_PICKER_GAME
+}
+
+enum class ModeFragment{
+    PRACTICE,GAME
+}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Practice.PracticeDetailFragment">
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/PracticeEdit1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/TextColor"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/PracticeEdit2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="10dp"
+                android:text="日付"
+                android:textColor="@color/TextColor"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/txtPracriceDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="11/11"
+                android:textColor="@color/TextColor"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/PracticeEdit3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/PracticeEdit4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="10dp"
+                android:text="今日の内容"
+                android:textColor="@color/TextColor"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/txtPracticeToday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="よかった"
+                android:textColor="@color/TextColor"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/PracticeEdit5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/PracticeEdit6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="10dp"
+                android:text="今日の反省"
+                android:textColor="@color/TextColor"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/txtPracticeReflection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="明日に生かす"
+                android:textColor="@color/TextColor"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/PracticeEdit7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/PracticeEdit8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:padding="10dp"
+                android:text="次回意識すること"
+                android:textColor="@color/TextColor"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/txtPracticeNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="フォアを強くする"
+                android:textColor="@color/TextColor"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
