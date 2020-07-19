@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -30,7 +31,7 @@ class PracticeFragment : Fragment() {
 
     lateinit var adapter: MyPracticeRecyclerViewAdapter
 
-    var dateList : MutableList<DataDB> = ArrayList()
+   // var dateList : MutableList<DataDB> = ArrayList()
 
 
 
@@ -76,6 +77,8 @@ class PracticeFragment : Fragment() {
                     .findAll()
 
                 val resultArray: List<DataDB> = result.toList()
+
+                Log.d("listSize",resultArray.size.toString())
 
                 adapter = MyPracticeRecyclerViewAdapter(resultArray, listener)
 
@@ -140,21 +143,14 @@ class PracticeFragment : Fragment() {
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(query: String?): Boolean {
 
+                    //検索キーが押された場合
 
-                    adapter = MyPracticeRecyclerViewAdapter(dateList,listener)
-                    recycler_practice.adapter = adapter
-
-                    adapter.filter.filter(query)
-
-                    return true
+                    return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
 
-                    adapter = MyPracticeRecyclerViewAdapter(dateList,listener)
-                    recycler_practice.adapter = adapter
-
-                    adapter.filter.filter(newText)
+                    //検索キー、textが変更された
 
                     return true
 

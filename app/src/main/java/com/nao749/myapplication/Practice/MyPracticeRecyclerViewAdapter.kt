@@ -20,12 +20,15 @@ import io.realm.RealmResults
 
 import kotlinx.android.synthetic.main.fragment_practice.view.*
 import org.w3c.dom.Text
+import kotlin.math.log
 
 
 class MyPracticeRecyclerViewAdapter(
-    internal var mValues: List<DataDB>,
+    private var mValues: List<DataDB>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<MyPracticeRecyclerViewAdapter.ViewHolder>() ,Filterable {
+
+
 
     private val mOnClickListener: View.OnClickListener
 
@@ -33,6 +36,7 @@ class MyPracticeRecyclerViewAdapter(
 
     init {
         this.filterListResult = mValues
+        Log.d("key2",filterListResult.size.toString())
     }
 
     init {
@@ -53,6 +57,7 @@ class MyPracticeRecyclerViewAdapter(
                 if (charString.isEmpty()){
 
                     filterListResult = mValues
+                    Log.d("key5",filterListResult.size.toString())
 
                 }
                 else{
@@ -60,19 +65,40 @@ class MyPracticeRecyclerViewAdapter(
                     val realm = Realm.getDefaultInstance()
                     val q = realm.where(DataDB::class.java).findAll()
 
-                    for (i in  0..mValues.size){
+                    Log.d("key",charSearch)
 
-                        if (q[i]!!.date.toLowerCase().contains(charSearch.toLowerCase())){
+                    for (i in  0..filterListResult.size) {
+
+                        Log.d("key", filterListResult.size.toString())
+                        Log.d("key", q[i]!!.date.toString())
+                        Log.d("key", q[i]!!.today.toString())
+                        Log.d("key", q[i]!!.reflection.toString())
+
+
+                        if (q[i]!!.date.toLowerCase().contains(charSearch.toLowerCase())) {
                             resultList.add(q[i]!!)
-                        }else if(q[i]!!.today.toLowerCase().contains(charSearch.toLowerCase())){
+                        } else if (q[i]!!.today.toLowerCase().contains(charSearch.toLowerCase())) {
                             resultList.add(q[i]!!)
-                        }else if (q[i]!!.reflection.toLowerCase().contains(charSearch.toLowerCase())){
+                        } else if (q[i]!!.reflection.toLowerCase()
+                                .contains(charSearch.toLowerCase())
+                        ) {
                             resultList.add(q[i]!!)
-                        }else if (q[i]!!.reflection.toLowerCase().contains(charSearch.toLowerCase())){
+                        } else if (q[i]!!.reflection.toLowerCase()
+                                .contains(charSearch.toLowerCase())
+                        ) {
                             resultList.add(q[i]!!)
                         }
+
+                        Log.d("key3", resultList.size.toString())
+
+
+                        filterListResult = resultList
+
+                        Log.d("key4", resultList.size.toString())
+
+                        Log.d("key4.1", filterListResult.size.toString())
                     }
-                    filterListResult = resultList
+                    realm.commitTransaction()
 
                 }
 
@@ -83,6 +109,8 @@ class MyPracticeRecyclerViewAdapter(
             }
 
             override fun publishResults(charSquence: CharSequence?, filterResults: FilterResults?) {
+                Log.d("key",filterResults!!.count.toString())
+
                 if(filterResults!!.count == 0){
                     notifyDataSetChanged()
                 }else{
