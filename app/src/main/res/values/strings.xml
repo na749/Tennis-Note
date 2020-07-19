@@ -39,4 +39,6 @@
     <string name="delete_is_ok">削除</string>
     <string name="delete_check">このノートを削除してもよろしいですか？</string>
 
+    <string name="search_hint">キーワードを入力</string>
+
 </resources>

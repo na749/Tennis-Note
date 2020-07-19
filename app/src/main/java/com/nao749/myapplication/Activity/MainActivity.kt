@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -23,6 +24,8 @@ import com.nao749.myapplication.ModeInEdit
 import com.nao749.myapplication.Practice.PracticeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener ,PracticeFragment.OnListFragmentInteractionListener
 ,GameFragment.OnListFragmentInteractionListener{
@@ -34,6 +37,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var isOpen = false
 
+    lateinit var fabOpen : Animation
+    lateinit var fabClose : Animation
+    lateinit var fabRClockWise : Animation
+    lateinit var fabRAntiClockWise : Animation
+    lateinit var fabCloseUpdate :Animation
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_NoActionBar)
@@ -41,10 +52,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val fabOpen = AnimationUtils.loadAnimation(this,R.anim.fab_open)
-        val fabClose = AnimationUtils.loadAnimation(this,R.anim.fab_close)
-        val fabRClockWise = AnimationUtils.loadAnimation(this,R.anim.rotate_clockwise)
-        val fabRAntiClockWise = AnimationUtils.loadAnimation(this,R.anim.rotate_anticlockwise)
+        fabOpen = AnimationUtils.loadAnimation(this,R.anim.fab_open)
+        fabClose = AnimationUtils.loadAnimation(this,R.anim.fab_close)
+        fabRClockWise = AnimationUtils.loadAnimation(this,R.anim.rotate_clockwise)
+        fabRAntiClockWise = AnimationUtils.loadAnimation(this,R.anim.rotate_anticlockwise)
+        fabCloseUpdate = AnimationUtils.loadAnimation(this,R.anim.fab_close_update)
+
+
 
         modefragment = ModeFragment.PRACTICE
 
@@ -83,6 +97,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             practice_button.setOnSafeClickListener {
 
+                practice_button.startAnimation(fabCloseUpdate)
+                game_button.startAnimation(fabCloseUpdate)
+                fab.startAnimation(fabRClockWise)
+                textPracticeNoteMake.startAnimation(fabCloseUpdate)
+                textGameMeke.startAnimation(fabCloseUpdate)
+
+                isOpen = false
+
+
                 val intent = Intent(this@MainActivity,
                     EditActivity::class.java)
                 intent.putExtra(IntentKey.DATE.name,"")
@@ -91,12 +114,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent.putExtra(IntentKey.NEXT_POINT.name,"")
                 intent.putExtra(IntentKey.MODE.name, ModeInEdit.NEW)
                 intent.putExtra(IntentKey.MODEFRAGMENT.name,ModeFragment.PRACTICE)
+                intent.putExtra(IntentKey.FAB_BUTTON.name,isOpen)
                 startActivity(intent)
-
 
             }
 
             game_button.setOnSafeClickListener {
+
+                practice_button.startAnimation(fabCloseUpdate)
+                game_button.startAnimation(fabCloseUpdate)
+                fab.startAnimation(fabRClockWise)
+                textPracticeNoteMake.startAnimation(fabCloseUpdate)
+                textGameMeke.startAnimation(fabCloseUpdate)
+
+                isOpen = false
 
 
                 val intent = Intent(this@MainActivity,EditActivity::class.java)
@@ -111,6 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     putExtra(IntentKey.MODEFRAGMENT.name,ModeFragment.GAME)
                 }
                 startActivity(intent)
+
 
             }
 
@@ -148,9 +180,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onResume()
 
         updateList()
+
     }
 
+
     private fun updateList() {
+
 
         if (modefragment == ModeFragment.PRACTICE){
             //Fragmentの交換でリストの更新
@@ -172,7 +207,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             findItem(R.id.menu_delete).isVisible = false //削除
             findItem(R.id.menu_edit).isVisible = false   //編集
             findItem(R.id.menu_done).isVisible = false   //完了
+            findItem(R.id.menu_share).isVisible = true
+            findItem(R.id.menu_search).isVisible = true
+            findItem(R.id.menu_sort).isVisible = true
         }
+
+
         return true
     }
 
@@ -220,6 +260,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    //PracticeFragmentから
+    override fun onDelete() {
+        updateList()
+    }
+
+    override fun onReDelete() {
+        updateList()
+    }
+
+    override fun onBack() {
+        updateList()
+    }
+
+
     //GameFragmentから
     //リストの項目が押されたときに行う処理
     override fun onItemClick(item: DataDB) {
@@ -237,6 +291,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         startActivity(intent)
 
+    }
+
+    override fun onDeleteGame() {
+        updateList()
     }
 
 }

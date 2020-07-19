@@ -1,22 +1,22 @@
 package com.nao749.myapplication.Practice
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.nao749.myapplication.DB.DataDB
 import com.nao749.myapplication.Helper.MySwipeHelper
 import com.nao749.myapplication.Helper.Mybutton
-import com.nao749.myapplication.Helper.MybuttonClickListener
 import com.nao749.myapplication.R
-import com.nao749.myapplication.makeToast
-
 import io.realm.Realm
+import io.realm.Sort
 import kotlinx.android.synthetic.main.fragment_practice_list.*
 
 
@@ -28,6 +28,13 @@ class PracticeFragment : Fragment() {
 
     private var mListener : OnListPracticeFragmentInteractionListener? = null
 
+    lateinit var adapter: MyPracticeRecyclerViewAdapter
+
+    var dateList : MutableList<DataDB> = ArrayList()
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +42,8 @@ class PracticeFragment : Fragment() {
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+
+
     }
 
     //LayoutManagerのセット
@@ -44,6 +53,7 @@ class PracticeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_practice_list, container, false)
 
+        setHasOptionsMenu(true)
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -65,18 +75,35 @@ class PracticeFragment : Fragment() {
                     .equalTo(DataDB::fragmentFrag.name, "練習")
                     .findAll()
 
-                adapter = MyPracticeRecyclerViewAdapter(result, listener)
+                val resultArray: List<DataDB> = result.toList()
 
-                val swipe = object : MySwipeHelper(context,this,200){
+                adapter = MyPracticeRecyclerViewAdapter(resultArray, listener)
+
+
+                val swipe = object : MySwipeHelper(context,this,400){
                     override fun instantiateMyButton(
                         viewHolder: RecyclerView.ViewHolder,
                         buffer: MutableList<Mybutton>
                     ) {
-                        buffer.add(Mybutton(context,"Delete",30,0,Color.parseColor("#FF3C30"),
+                        buffer.add(Mybutton(context,
+                            "削除",
+                            30,
+                            R.drawable.ic_delete_black_24dp,
+                            Color.parseColor("#FF3C30"),
                             object : OnListPracticeFragmentInteractionListener {
                                 override fun onClick(pos: Int) {
+
                                     //削除処理
-                                    makeToast(context,"け")
+                                    val resultDelete = result[pos]
+
+                                    realm.beginTransaction()
+                                    resultDelete!!.deleteFromRealm()
+                                    realm.commitTransaction()
+                                    realm.close()
+
+                                    listener!!.onDelete()
+
+                                    Snackbar.make(this@with,"削除しました",Snackbar.LENGTH_SHORT).show()
                                 }
 
                             }))
@@ -88,6 +115,92 @@ class PracticeFragment : Fragment() {
             }
         }
         return view
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        menu.apply {
+            findItem(R.id.menu_delete).isVisible = false //削除
+            findItem(R.id.menu_edit).isVisible = false   //編集
+            findItem(R.id.menu_done).isVisible = false   //完了
+            findItem(R.id.menu_share).isVisible = true
+            findItem(R.id.menu_search).isVisible = true
+            findItem(R.id.menu_sort).isVisible = true
+        }
+
+
+
+        var searchMenu = menu.findItem(R.id.menu_search)
+        searchMenu.apply {
+            var searchView = actionView as SearchView
+            searchView.queryHint = getString(R.string.search_hint)//検索窓のヒント
+            searchView.maxWidth = Int.MAX_VALUE
+
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+
+
+                    adapter = MyPracticeRecyclerViewAdapter(dateList,listener)
+                    recycler_practice.adapter = adapter
+
+                    adapter.filter.filter(query)
+
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    adapter = MyPracticeRecyclerViewAdapter(dateList,listener)
+                    recycler_practice.adapter = adapter
+
+                    adapter.filter.filter(newText)
+
+                    return true
+
+                }
+
+            })
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_share -> {
+                val shareTitle = "ノートリストの共有"
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT,"練習や試合の記録をつけられるテニスノートアプリの決定版！！")
+                    type = "text/*"
+
+                }
+                startActivity(Intent.createChooser(intent,shareTitle))
+            }
+
+            R.id.menu_search -> {
+                true
+            }
+
+            R.id.menu_sort -> {
+
+                val realm = Realm.getDefaultInstance()
+                val list = realm.where(DataDB::class.java)
+                    .sort(DataDB::date.name,Sort.DESCENDING).findAll()
+
+                val resultArray: List<DataDB> = list.toList()
+
+                recycler_practice.adapter = MyPracticeRecyclerViewAdapter(resultArray, listener)
+
+            }
+
+            else -> return super.onOptionsItemSelected(item)
+
+        }
+
+        return true
+
     }
 
 
@@ -112,7 +225,15 @@ class PracticeFragment : Fragment() {
         //リストの項目を押したときに行う処理
         fun onListItemClick(item: DataDB)
 
+        fun onDelete()
+
+        fun onReDelete()
+
+        fun onBack()
+
     }
+
+
 
     interface OnListPracticeFragmentInteractionListener{
         fun onClick(pos:Int)

@@ -1,16 +1,21 @@
 package com.nao749.myapplication.Practice
 
+import android.content.ClipData
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import com.nao749.myapplication.DB.DataDB
 
 
 import com.nao749.myapplication.Practice.PracticeFragment.OnListFragmentInteractionListener
 import com.nao749.myapplication.R
+import io.realm.Realm
 import io.realm.RealmResults
 
 import kotlinx.android.synthetic.main.fragment_practice.view.*
@@ -18,11 +23,17 @@ import org.w3c.dom.Text
 
 
 class MyPracticeRecyclerViewAdapter(
-    private val mValues: RealmResults<DataDB>,
+    internal var mValues: List<DataDB>,
     private val mListener: OnListFragmentInteractionListener?
-) : RecyclerView.Adapter<MyPracticeRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MyPracticeRecyclerViewAdapter.ViewHolder>() ,Filterable {
 
     private val mOnClickListener: View.OnClickListener
+
+    internal var filterListResult : List<DataDB>
+
+    init {
+        this.filterListResult = mValues
+    }
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -31,6 +42,57 @@ class MyPracticeRecyclerViewAdapter(
             // one) that an item has been selected.
             mListener?.onListItemClick(item)
         }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(charString: CharSequence): FilterResults {
+
+                val charSearch = charString.toString()
+
+                if (charString.isEmpty()){
+
+                    filterListResult = mValues
+
+                }
+                else{
+                    val resultList = ArrayList<DataDB>()
+                    val realm = Realm.getDefaultInstance()
+                    val q = realm.where(DataDB::class.java).findAll()
+
+                    for (i in  0..mValues.size){
+
+                        if (q[i]!!.date.toLowerCase().contains(charSearch.toLowerCase())){
+                            resultList.add(q[i]!!)
+                        }else if(q[i]!!.today.toLowerCase().contains(charSearch.toLowerCase())){
+                            resultList.add(q[i]!!)
+                        }else if (q[i]!!.reflection.toLowerCase().contains(charSearch.toLowerCase())){
+                            resultList.add(q[i]!!)
+                        }else if (q[i]!!.reflection.toLowerCase().contains(charSearch.toLowerCase())){
+                            resultList.add(q[i]!!)
+                        }
+                    }
+                    filterListResult = resultList
+
+                }
+
+                val filterResults = Filter.FilterResults()
+                filterResults.values = filterListResult
+                return filterResults
+
+            }
+
+            override fun publishResults(charSquence: CharSequence?, filterResults: FilterResults?) {
+                if(filterResults!!.count == 0){
+                    notifyDataSetChanged()
+                }else{
+                    filterListResult = filterResults.values as List<DataDB>
+                    notifyDataSetChanged()
+                }
+            }
+
+        }
+
     }
 
     //ViewHolderの生成
@@ -43,9 +105,9 @@ class MyPracticeRecyclerViewAdapter(
 
     //ViewHolderにくっつけ
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
-        holder.date.text = mValues[position]!!.date
-        holder.textNext.text = mValues[position]!!.nextPoint
+        val item = filterListResult[position]
+        holder.date.text = filterListResult[position]!!.date
+        holder.textNext.text = filterListResult[position]!!.nextPoint
 
         //RecyclerViewのクリックリスナー
         with(holder.mView) {
@@ -55,12 +117,18 @@ class MyPracticeRecyclerViewAdapter(
     }
 
     //アダプターが保持している数
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = filterListResult.size
 
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val date : TextView = mView.txtPracriceDate
-        val textNext : TextView = mView.txtNextChallenge
-        val practice : TextView = mView.PracticeTextView
+        val date: TextView = mView.txtPracriceDate
+        val textNext: TextView = mView.txtNextChallenge
+        val practice: TextView = mView.PracticeTextView
     }
+
+
 }
+
+
+
+

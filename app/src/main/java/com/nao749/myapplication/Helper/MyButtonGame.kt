@@ -6,16 +6,19 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
-import com.nao749.myapplication.Practice.PracticeFragment
+import com.nao749.myapplication.Game.GameFragment
 
-class Mybutton (private val context: Context, private val text:String,
-                private val textSize:Int,
-                private val imageResId : Int,
-                private val color:Int,
-                private val listener:PracticeFragment.OnListPracticeFragmentInteractionListener){
+class MyButtonGame(
+    private val context: Context, private val text:String,
+    private val textSize:Int,
+    private val imageResId : Int,
+    private val color:Int,
+    private val listener : GameFragment.OnListGameFragmentInreractionListener
+) {
+
     private var pos:Int = 0
     private var clickRegion : RectF? = null
-    private val resources:Resources
+    private val resources: Resources
 
     init {
         resources = context.resources
@@ -62,7 +65,7 @@ class Mybutton (private val context: Context, private val text:String,
 
     private fun drawableToBitMap(d: Drawable?): Bitmap {
         if(d is BitmapDrawable)return d.bitmap
-        val bitmap = Bitmap.createBitmap(d!!.intrinsicWidth,d.intrinsicHeight,Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(d!!.intrinsicWidth,d.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         d.setBounds(0,0,canvas.width,canvas.height)
         d.draw(canvas)
