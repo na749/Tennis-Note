@@ -71,6 +71,9 @@ class PracticeDetailFragment : Fragment() {
             findItem(R.id.menu_delete).isVisible = true //削除
             findItem(R.id.menu_edit).isVisible = true   //編集
             findItem(R.id.menu_done).isVisible = false //完了
+            findItem(R.id.menu_share).isVisible = false
+            findItem(R.id.menu_search).isVisible = false
+            findItem(R.id.menu_sort).isVisible = false
         }
         super.onCreateOptionsMenu(menu, inflater)
 

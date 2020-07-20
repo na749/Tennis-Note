@@ -1,4 +1,4 @@
-package com.nao749.myapplication
+package com.nao749.myapplication.Plan
 
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -34,6 +34,8 @@ class DataPickerPlanFragment: DialogFragment(),DatePickerDialog.OnDateSetListene
     interface OnPlanDateSetListener{
 
         fun onDateSelected(dateString : String)
+
+        fun onDatePickerInt(year:Int,month:Int,day:Int)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -52,9 +54,11 @@ class DataPickerPlanFragment: DialogFragment(),DatePickerDialog.OnDateSetListene
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
         val dateString = getDateString(year,month,day)
         listener!!.onDateSelected(dateString)
+        listener!!.onDatePickerInt(year,month,day)
 
     }
 
+    //表示形式のへんかん
     private fun getDateString(year: Int, month: Int, day: Int): String {
         val calender = Calendar.getInstance()
         calender.set(year,month,day)

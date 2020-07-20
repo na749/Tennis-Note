@@ -67,6 +67,9 @@ class EditActivity : AppCompatActivity() ,PracticeEditFragment.OnFragmentInterac
             findItem(R.id.menu_delete).isVisible = false //削除
             findItem(R.id.menu_edit).isVisible = false   //編集
             findItem(R.id.menu_done).isVisible = true   //完了
+            findItem(R.id.menu_share).isVisible = false
+            findItem(R.id.menu_search).isVisible = false
+            findItem(R.id.menu_sort).isVisible = false
         }
         return true
     }

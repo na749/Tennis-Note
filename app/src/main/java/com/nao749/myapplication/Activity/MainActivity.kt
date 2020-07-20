@@ -1,6 +1,11 @@
 package com.nao749.myapplication.Activity
 
 import android.content.Intent
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.view.Menu
@@ -161,6 +166,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+
+
+        //nav_viewの色の初期化？？
+        nav_view.itemIconTintList = null
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+
+            nav_view.menu.findItem(R.id.nav_practice).icon.colorFilter =
+                BlendModeColorFilter(Color.parseColor("#000000"),BlendMode.SRC_ATOP)
+
+            nav_view.menu.findItem(R.id.nav_game).icon.colorFilter =
+                BlendModeColorFilter(Color.parseColor("#000000"),BlendMode.SRC_ATOP)
+
+            nav_view.menu.findItem(R.id.nav_calender).icon.colorFilter =
+                BlendModeColorFilter(Color.parseColor("#000000"),BlendMode.SRC_ATOP)
+
+        }else{
+
+            nav_view.menu.findItem(R.id.nav_practice).icon.setColorFilter(Color.parseColor("#000000"),PorterDuff.Mode.SRC_ATOP)
+
+            nav_view.menu.findItem(R.id.nav_game).icon.setColorFilter(Color.parseColor("#000000"),PorterDuff.Mode.SRC_ATOP)
+
+            nav_view.menu.findItem(R.id.nav_calender).icon.setColorFilter(Color.parseColor("#000000"),PorterDuff.Mode.SRC_ATOP)
+
+        }
+
+
         //Nav_viewのアイテムリスナー
         nav_view.setNavigationItemSelectedListener(this)
     }
@@ -217,11 +249,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
-
-    }
-
     //navメニュー内のアイテムリスナー
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
@@ -241,15 +268,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 val intent = Intent(this@MainActivity,PlanActivity::class.java)
                 startActivity(intent)
-
-//                val intent = Intent(Intent.ACTION_INSERT).apply {
-//                    data = CalendarContract.Events.CONTENT_URI
-//                    putExtra(CalendarContract.Events.TITLE,"予定")
-//                }
-//                if(intent.resolveActivity(packageManager) != null){
-//                    startActivity(intent)
-//                }
-
 
             }
         }

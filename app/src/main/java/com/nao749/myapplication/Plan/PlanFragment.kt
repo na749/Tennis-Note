@@ -1,9 +1,10 @@
-package com.nao749.myapplication
+package com.nao749.myapplication.Plan
 
 import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.nao749.myapplication.R
 import kotlinx.android.synthetic.main.fragment_plan.*
 
 
@@ -29,6 +30,10 @@ class PlanFragment : Fragment() {
 
         imageBtnDate.setOnClickListener {
             listener!!.onDatePickerPlan()
+        }
+
+        imageBeginBtn.setOnClickListener {
+            listener!!.onTimePickerPlan()
         }
 
         buttonRegister.setOnClickListener {
@@ -94,6 +99,8 @@ class PlanFragment : Fragment() {
 
         fun onResisterCalender()
 
+
+        fun onTimePickerPlan()
     }
 
 
