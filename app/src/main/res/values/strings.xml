@@ -40,5 +40,6 @@
     <string name="delete_check">このノートを削除してもよろしいですか？</string>
 
     <string name="search_hint">キーワードを入力</string>
+    <string name="title_activity_plan">PlanActivity</string>
 
 </resources>

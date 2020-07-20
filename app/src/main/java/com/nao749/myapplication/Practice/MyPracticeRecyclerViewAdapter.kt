@@ -67,7 +67,7 @@ class MyPracticeRecyclerViewAdapter(
 
                     Log.d("key",charSearch)
 
-                    for (i in  0..filterListResult.size) {
+                    for (i in filterListResult.indices) {
 
                         Log.d("key", filterListResult.size.toString())
                         Log.d("key", q[i]!!.date.toString())

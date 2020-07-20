@@ -145,14 +145,26 @@ class PracticeFragment : Fragment() {
 
                     //検索キーが押された場合
 
+
                     return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
 
-                    //検索キー、textが変更された
+                    val realm = Realm.getDefaultInstance()
+                    val result = realm.where(DataDB::class.java)
+                        .equalTo(DataDB::fragmentFrag.name, "練習")
+                        .findAll()
 
-                    return true
+                    val dateList: MutableList<DataDB> = result.toMutableList()
+
+
+                    adapter = MyPracticeRecyclerViewAdapter(dateList,listener)
+                    recycler_practice.adapter = adapter
+
+                    adapter.filter.filter(newText)
+
+                    return false
 
                 }
 

@@ -2,6 +2,7 @@ package com.nao749.myapplication.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.animation.Animation
@@ -234,6 +235,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container_List,GameFragment.newInstance(1)).commit()
                 modefragment = ModeFragment.GAME
+            }
+
+            R.id.nav_calender ->{
+
+                val intent = Intent(this@MainActivity,PlanActivity::class.java)
+                startActivity(intent)
+
+//                val intent = Intent(Intent.ACTION_INSERT).apply {
+//                    data = CalendarContract.Events.CONTENT_URI
+//                    putExtra(CalendarContract.Events.TITLE,"予定")
+//                }
+//                if(intent.resolveActivity(packageManager) != null){
+//                    startActivity(intent)
+//                }
+
+
             }
         }
 
