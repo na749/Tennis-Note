@@ -73,14 +73,12 @@ class PracticeFragment : Fragment() {
 
                 val realm = Realm.getDefaultInstance()
                 val result = realm.where(DataDB::class.java)
-                    .equalTo(DataDB::fragmentFrag.name, "練習")
+                    .equalTo(DataDB::fragmentFrag.name, "練習").sort(DataDB::date.name,Sort.DESCENDING)
                     .findAll()
 
-                val resultArray: List<DataDB> = result.toList()
 
-                Log.d("listSize",resultArray.size.toString())
 
-                adapter = MyPracticeRecyclerViewAdapter(resultArray, listener)
+                adapter = MyPracticeRecyclerViewAdapter(result, listener)
 
 
                 val swipe = object : MySwipeHelper(context,this,400){
@@ -128,48 +126,9 @@ class PracticeFragment : Fragment() {
             findItem(R.id.menu_edit).isVisible = false   //編集
             findItem(R.id.menu_done).isVisible = false   //完了
             findItem(R.id.menu_share).isVisible = true
-            findItem(R.id.menu_search).isVisible = true
-            findItem(R.id.menu_sort).isVisible = true
+
         }
 
-
-
-        var searchMenu = menu.findItem(R.id.menu_search)
-        searchMenu.apply {
-            var searchView = actionView as SearchView
-            searchView.queryHint = getString(R.string.search_hint)//検索窓のヒント
-            searchView.maxWidth = Int.MAX_VALUE
-
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query: String?): Boolean {
-
-                    //検索キーが押された場合
-
-
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-
-                    val realm = Realm.getDefaultInstance()
-                    val result = realm.where(DataDB::class.java)
-                        .equalTo(DataDB::fragmentFrag.name, "練習")
-                        .findAll()
-
-                    val dateList: MutableList<DataDB> = result.toMutableList()
-
-
-                    adapter = MyPracticeRecyclerViewAdapter(dateList,listener)
-                    recycler_practice.adapter = adapter
-
-                    adapter.filter.filter(newText)
-
-                    return false
-
-                }
-
-            })
-        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -187,21 +146,6 @@ class PracticeFragment : Fragment() {
                 startActivity(Intent.createChooser(intent,shareTitle))
             }
 
-            R.id.menu_search -> {
-                true
-            }
-
-            R.id.menu_sort -> {
-
-                val realm = Realm.getDefaultInstance()
-                val list = realm.where(DataDB::class.java)
-                    .sort(DataDB::date.name,Sort.DESCENDING).findAll()
-
-                val resultArray: List<DataDB> = list.toList()
-
-                recycler_practice.adapter = MyPracticeRecyclerViewAdapter(resultArray, listener)
-
-            }
 
             else -> return super.onOptionsItemSelected(item)
 

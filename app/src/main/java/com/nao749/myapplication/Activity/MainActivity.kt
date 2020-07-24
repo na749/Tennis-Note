@@ -241,8 +241,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             findItem(R.id.menu_edit).isVisible = false   //編集
             findItem(R.id.menu_done).isVisible = false   //完了
             findItem(R.id.menu_share).isVisible = true
-            findItem(R.id.menu_search).isVisible = true
-            findItem(R.id.menu_sort).isVisible = true
+
         }
 
 

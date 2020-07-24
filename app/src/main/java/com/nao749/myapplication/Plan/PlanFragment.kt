@@ -49,8 +49,7 @@ class PlanFragment : Fragment() {
             findItem(R.id.menu_edit).isVisible = false   //編集
             findItem(R.id.menu_done).isVisible = true   //完了
             findItem(R.id.menu_share).isVisible = false  //シェア
-            findItem(R.id.menu_search).isVisible = false //検索
-            findItem(R.id.menu_sort).isVisible = false   //並べ替え
+
         }
         super.onCreateOptionsMenu(menu, inflater)
     }

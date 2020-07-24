@@ -14,10 +14,14 @@ import com.nao749.myapplication.DB.DataDB
 import com.nao749.myapplication.Helper.MyButtonGame
 import com.nao749.myapplication.Helper.MySwiperHelperGame
 import com.nao749.myapplication.Helper.Mybutton
+import com.nao749.myapplication.Practice.MyPracticeRecyclerViewAdapter
 import com.nao749.myapplication.R
 
 
 import io.realm.Realm
+import io.realm.Sort
+import kotlinx.android.synthetic.main.fragment_game_list.*
+import kotlinx.android.synthetic.main.fragment_practice_list.*
 
 
 class GameFragment : Fragment() {
@@ -61,7 +65,7 @@ class GameFragment : Fragment() {
 
                 val realm = Realm.getDefaultInstance()
                 val result = realm.where(DataDB::class.java)
-                    .equalTo(DataDB::fragmentFrag.name,"試合")
+                    .equalTo(DataDB::fragmentFrag.name,"試合").sort(DataDB::gameDate.name,Sort.DESCENDING)
                     .findAll()
 
                 adapter = MyGameRecyclerViewAdapter(result, listener)
@@ -107,6 +111,7 @@ class GameFragment : Fragment() {
             findItem(R.id.menu_edit).isVisible = false   //編集
             findItem(R.id.menu_done).isVisible = false   //完了
             findItem(R.id.menu_share).isVisible = true
+
         }
 
         super.onCreateOptionsMenu(menu, inflater)
@@ -127,6 +132,7 @@ class GameFragment : Fragment() {
                 startActivity(Intent.createChooser(intent,shareTitle))
 
             }
+
 
             else -> return super.onOptionsItemSelected(item)
 
